@@ -1,5 +1,9 @@
 package javaProjects.okulYonetimi;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /*
 	BİR OKUL YÖNETİM PLATFORMU KODALYINIZ.
 
@@ -37,10 +41,144 @@ package javaProjects.okulYonetimi;
 
  */
 
-
-
 public class Islemler {
 
+	static List<Kisi> ogrenciList = new ArrayList<Kisi>();
+	static List<Kisi> ogretmenList = new ArrayList<Kisi>();
 
+	static Scanner scan = new Scanner(System.in);
+
+	static String kisiTuru;
+
+	public static void anaMenu() {
+
+		System.out.println(
+				"====================================\nOGRENCI VE OGRETMEN YONETIM PANELI\n====================================\n"
+						+ "1- OGRENCI ISLEMLERI\n2- OGRETMEN ISLEMLERI\nQ- CIKIS");
+
+		System.out.println("isleminizi seciniz : ");
+		String secim = scan.next().toUpperCase();
+
+		switch (secim) {
+
+		case "1":
+			kisiTuru = "OGRENCI";
+			islemMenusu();
+			break;
+
+		case "2":
+			kisiTuru = "OGRETMEN";
+			islemMenusu();
+			break;
+
+		case "q":
+			cikis();
+			break;
+
+		default:
+			break;
+			anaMenu();
+
+		}
+
+	}
+
+	private static void cikis() {
+		System.out.println("Uygulamayi kullandiginiz icin Tesekkurler");
+
+	}
+
+	private static void islemMenusu() {
+
+		System.out.println("\n" + "	============= İŞLEMLER =============\n" + "		 1-EKLEME\n" + "		 2-ARAMA\n"
+				+ "		 3-LİSTELEME\n" + "		 4-SİLME\n" + "		 0-ÇIKIŞ");
+
+		System.out.println("Islem tercihinizi seciniz");
+		int islemTercihi = scan.nextInt();
+
+		switch (islemTercihi) {
+
+		case 0:
+			anaMenu();
+			break;
+		case 1:
+			ekleme();
+			islemMenusu();
+			break;
+		case 2:
+			arama();
+			islemMenusu();
+			break;
+		case 3:
+			listeleme();
+			islemMenusu();
+			break;
+
+		case 4:
+			silme();
+			islemMenusu();
+			break;
+
+		default:
+			System.out.println("Hatali giris yaptiniz");
+			islemMenusu();
+			break;
+
+		}
+
+	}
+
+	private static void arama() {
+
+		System.out.println("*****"+kisiTuru+"arama sayfasi ****");
+		if (kisiTuru.equals("ogrenci")) {
+			System.out.println("aradiginiz ogrenci kimlik No giriniz");
+			String ogrenciKimlik = scan.next();
+			for(Kisi k:ogrenciList) {
+				if (k.getKimlikNo().contains(ogrenciKimlik)) {
+					System.out.println("aradiginiz ogrenci : "+ k.getAdSoyad());
+				}else {
+					System.out.println("Aradiginiz ogrenci mevcut degil");
+				}
+				
+			}
+			
+			
+			
+		}
+		
+		
+	}
+
+	private static void ekleme() {
+
+	System.out.println("*****"+kisiTuru+"ekleme sayfasi ****");
+		System.out.println("Ad soyad giriniz : ");
+		String adSoyad = scan.nextLine();
+		System.out.println("Kimlik No Giriniz");
+		String kimlikNo=scan.next();
+		System.out.println("Yas giriniz : ");
+		int yas=scan.nextInt();
+		
+		if (kisiTuru.equals("ogrenci")) {
+			System.out.println("Ogrenci No giriniz : ");
+			String numara=scan.next();
+			System.out.println("Sinif giriniz");
+			String sinif =scan.next();
+			
+			Ogrenci ogrenci = new Ogrenci(adSoyad,kimlikNo,yas,numara,sinif);
+			ogrenciList.add(ogrenci);
+		}
+		
+		else {
+			
+		
+			
+			
+		}
+		
+		
+		
+	}
 
 }

@@ -66,8 +66,8 @@ public class Schuler {
 
 	@Override
 	public String toString() {
-		return "Schuler [name=" + name + ", Idnummer=" + Idnummer + ", alt=" + alt + ", nummer=" + nummer + ", klasse="
-				+ klasse + "]";
+		return "Schuler name=" + name +"\t"+ " Idnummer = " + Idnummer +"\t"+ " alt = " + alt + "\t"+" nummer = " + nummer +"\t"+ " klasse = "
+				+ klasse + "\n";
 	}
 	
 	

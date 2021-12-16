@@ -1,5 +1,7 @@
 package SchulVerwaltung;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class Formalien {
@@ -64,7 +66,9 @@ public class Formalien {
 			mainMenu();
 		case "Q":
 			ausgang();
+			break;
 		default:System.out.println("False Wahl");
+		dienstweg();
 		
 			
 			
@@ -78,24 +82,49 @@ public class Formalien {
 	private static void loschen() {
 		if (personArt.equals("schuler")) {
 			Scanner scan=new Scanner(System.in);
-			System.out.println("Tippen Sie bitte name des Schulers oder Idnummer des Schulers");
+			System.out.println("Tippen Sie bitte  Idnummer des Schulers");
 			String suchen=scan.nextLine();
+			boolean a=false;
 			for (Schuler i : Schuler.schulerList) {
 				
-				if (i.name.equalsIgnoreCase(suchen)||i.Idnummer.equals(suchen)) {
-					
-					
-				}else {
+				if (i.Idnummer.equals(suchen)) {
+					Schuler.schulerList.remove(i);	
+					a=true;
+					dienstweg();
+				}
+				}if(a==false) {
 					System.out.println("Der Schuler konnte nicht gefunden werden");
-				}}}
+					dienstweg();
+				}
+			
+		}else {
+			
+			Scanner scan=new Scanner(System.in);
+			System.out.println("Tippen Sie bitte  Idnummer des Lehrers");
+			String suchen=scan.nextLine();
+			boolean a=false;
+			for (Lehrern i : Lehrern.lehrernList) {
+				
+				if (i.Idnummer.equals(suchen)) {
+					Lehrern.lehrernList.remove(i);	
+					a=true;
+					dienstweg();
+				}}if(a==false) {
+					System.out.println("Der Lehrer konnte nicht gefunden werden");
+					dienstweg();
+				}
+			
+		}
 		
 		
 	}
 	private static void listen() {
 		if (personArt.equals("schuler")) {
 		System.out.println(Schuler.schulerList.toString());
+		dienstweg();
 		}else {
 			System.out.println(Lehrern.lehrernList.toString());
+			dienstweg();
 		}
 		
 	}
@@ -104,30 +133,37 @@ public class Formalien {
 		Scanner scan=new Scanner(System.in);
 		System.out.println("Tippen Sie bitte name des Schulers oder Idnummer des Schulers");
 		String suchen=scan.nextLine();
+		boolean a=false;
 		for (Schuler i : Schuler.schulerList) {
 			
 			if (i.name.equalsIgnoreCase(suchen)||i.Idnummer.equals(suchen)) {
 				System.out.println(i.toString());
-				
-			}else {
-				System.out.println("Der Schuler konnte nicht gefunden werden");
+				a=true;
+				dienstweg();
 			}
+		}if (a==false){
+			System.out.println("Der Schuler konnte nicht gefunden werden");
+			dienstweg();
 		}
 		}else {
 			
 			Scanner scan=new Scanner(System.in);
 			System.out.println("Tippen Sie bitte name des Lehrers oder Idnummer des Lehrers");
 			String suchen=scan.nextLine();
+			boolean b=false;
 			for (Lehrern i : Lehrern.lehrernList) {
 				
 				if (i.name.equalsIgnoreCase(suchen)||i.Idnummer.equals(suchen)) {
 					System.out.println(i.toString());
+					b=true;
+					dienstweg();
 					
-				}else {
-					System.out.println("Der Lehrer konnte nicht gefunden werden");
 				}
 			
 			
+			}if(b==false) {
+				System.out.println("Der Lehrer konnte nicht gefunden werden");
+				dienstweg();
 			}
 			
 			}

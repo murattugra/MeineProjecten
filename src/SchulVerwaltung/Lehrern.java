@@ -71,8 +71,8 @@ public class Lehrern {
 
 	@Override
 	public String toString() {
-		return "Lehrern [name=" + name + ", Idnummer=" + Idnummer + ", alt=" + alt + ", Personalaktenummer="
-				+ Personalaktenummer + ", abteilung=" + abteilung + "]";
+		return "Lehrern name=" + name + "\t"+" Idnummer=" + Idnummer + "\t"+" alt=" + alt +"\t"+ " Personalaktenummer="
+				+ Personalaktenummer +"\t"+ " abteilung=" + abteilung + "\n";
 	}
 	
 	

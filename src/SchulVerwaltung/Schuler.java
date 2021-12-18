@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javaProjects.okulYonetimi.Ogrenci;
+
 
 public class Schuler {
 	

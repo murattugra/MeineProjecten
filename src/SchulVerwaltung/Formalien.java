@@ -89,6 +89,7 @@ public class Formalien {
 				
 				if (i.Idnummer.equals(suchen)) {
 					Schuler.schulerList.remove(i);	
+					System.out.println("Der Schuler wurde geloscht.");
 					a=true;
 					dienstweg();
 				}
@@ -107,6 +108,7 @@ public class Formalien {
 				
 				if (i.Idnummer.equals(suchen)) {
 					Lehrern.lehrernList.remove(i);	
+					System.out.println("Der Lehrer wurde geloscht.");
 					a=true;
 					dienstweg();
 				}}if(a==false) {

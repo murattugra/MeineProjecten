@@ -92,13 +92,13 @@ public class main {
 	private static void kayit() {
 		System.out.println("Kaydetmek istedginiz ogrencini numarasini giriniz");
 		String numara=scan.next();
-		scan.next();
+		
 		System.out.println("Kaydetmek istedginiz ogrencini adini giriniz");
 		String ad=scan.next();
-		scan.next();
+	
 		System.out.println("Kaydetmek istedginiz ogrencini soyadini giriniz");
 		String soyad=scan.next();
-		scan.next();
+		
 		System.out.println("Kaydetmek istedginiz ogrencini ortalamasini giriniz");
 		double ortalama=scan.nextDouble();
 		

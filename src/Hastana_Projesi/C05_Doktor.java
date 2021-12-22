@@ -5,6 +5,7 @@ public class C05_Doktor {
 	private String isim;
 	private String soyIsim;
 	private String unvan;
+	
 	public String getIsim() {
 		return isim;
 	}

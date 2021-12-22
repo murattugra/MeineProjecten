@@ -7,6 +7,7 @@ public class C04_Hasta {
 	private String soyIsim;
 	private int hastaID;
 	private String hastaDurumu;
+	
 	public String getIsim() {
 		return isim;
 	}

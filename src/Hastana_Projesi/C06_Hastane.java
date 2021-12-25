@@ -5,6 +5,9 @@ public class C06_Hastane extends C02_VeriBankasi{
 	private C05_Doktor doktor;
 	private C04_Hasta hasta;
 	
+	C05_Doktor doktor1 = new C05_Doktor();
+	C04_Hasta hasta1 = new C04_Hasta();
+
 	
 	
 	public C05_Doktor getDoktor() {

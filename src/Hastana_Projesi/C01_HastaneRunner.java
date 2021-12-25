@@ -69,20 +69,23 @@ public class C01_HastaneRunner {
 		
 		
 		
-		if (unvan.equals(hastane.unvanlar[i])) {
+		if (unvan.equalsIgnoreCase(hastane.unvanlar[i])) {
 			doktor.setIsim(hastane.doctorIsimleri[i]);
-			doktor.setIsim(hastane.doctorIsimleri[i]);
+			doktor.setSoyIsim(hastane.doctorSoyIsimleri[i]);
 			doktor.setUnvan(unvan);
 		}
 	}
+
 		return doktor;
 		
+	
 		
-		
-	}
 	
 	
-	
+
+
+}
+
 	
 	
 }

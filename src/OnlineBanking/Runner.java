@@ -42,13 +42,16 @@ public class Runner {
 			break;
 		case "2":
 			sifreDegisme(tc);
+			kullaniciEkrani(tc);
 			break;
 
 		case "3":
 			paraTrensferi(tc);
+			kullaniciEkrani(tc);
 			break;
 		case "4":
-
+			kkEkstreOdeme(tc);
+			kullaniciEkrani(tc);
 			break;
 		case "5":
 
@@ -63,18 +66,94 @@ public class Runner {
 
 	}
 
-	private static void paraTrensferi(String tc) {
-		
-		if (tc.equals(obj1.tc)) {
-			System.out.println("Hesaptaki Paraniz          : " + obj1.getHesapMiktar() + " TL");
-			System.out.println("Gondermek istediginiz IBAN no sunu giriniz");
-			if (obj2.getIban().equals(scan.next())) {
-				
+	private static void kkEkstreOdeme(String tc) {
+	int tcindex = 0;
+		for (int i = 0; i < Banka.tcler.size(); i++) {
+			if (tc.equals(Banka.tcler.get(i))) {
+				tcindex=i;
+			} 
+
+		}
+		double minOdeme=Banka.kkEkstresi.get(tcindex)/3;
+		System.out.println("Bu ayki KK Ekstreniz "+Banka.kkEkstresi.get(tcindex)+
+							"\nOdemeniz Gereken minimum Tutar "+minOdeme);
+		System.out.println("Lutfen odemek istediginiz miktari giriniz");
+		double miktar=scan.nextDouble();
+		if (miktar==Banka.kkEkstresi.get(tcindex)) {
+			System.out.println("Odemeniz Gerceklerstirilmistir");
+			Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex)-miktar);
+			System.out.println("Bu ayki kalan odeme Tutariniz "+Banka.kkEkstresi.get(tcindex)+" TL dir");
+			
+			
+		} else if (miktar<Banka.kkEkstresi.get(tcindex)) {
+			if (miktar>=minOdeme) {
+				System.out.println("Minimum odemeniz gerceklestirilmistir");
+				Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex)-miktar);
+				System.out.println("Ay sonunda "+Banka.kkEkstresi.get(tcindex)+" TL tutar bir daha ki aya aktarilacaktir");
+			}else {
+				System.out.println("Odemeniz Gerceklerstirilmistir");
+				Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex)-miktar);
+				System.out.println("Bu ayki kalan odeme Tutariniz "+Banka.kkEkstresi.get(tcindex));
 			}
-		} else {
+			
+			
+		}else {
+			System.out.println("Odemeniz Gerceklerstirilmistir");
+			Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex)-miktar);
+			System.out.println("Yatirilan "+Banka.kkEkstresi.get(tcindex)*-1+" TL fazla tutar gelecek ayki odemeden dusurulecektir");
+		}{
 
 		}
 		
+		
+	}
+
+	private static void paraTrensferi(String tc) {
+		int a=1;
+	while (a<2) {
+		if (tc.equals(obj1.tc)) {
+			System.out.println("Hesaptaki Paraniz          : " + obj1.getHesapMiktar() + " TL");
+			System.out.println("Gondermek istediginiz IBAN no sunu giriniz");
+			String iban=scan.next();
+			System.out.println("Gondereceginiz miktari giriniz");
+			double miktar=scan.nextDouble();
+			if (obj2.getIban().equals(iban)) {
+				if (miktar<=obj1.getHesapMiktar()) {
+					obj2.setHesapMiktar(obj2.hesapMiktar+miktar);
+					System.out.println("Transfer islemi Gerceklestirildi");
+					obj1.setHesapMiktar(obj1.hesapMiktar-miktar);
+					System.out.println("Hesabinizda "+obj1.getHesapMiktar()+" TL kalmistir");
+					a=2;
+				}else {
+					System.out.println("Girdiginiz miktar Bakiyenizi asmaktadir");
+				}
+				
+			}else {
+				System.out.println("Girdiginiz Iban'i kontrol ediniz");
+			}
+		} else {
+			System.out.println("Hesaptaki Paraniz          : " + obj2.getHesapMiktar() + " TL");
+			System.out.println("Gondermek istediginiz IBAN no sunu giriniz");
+			String iban=scan.next();
+			System.out.println("Gondereceginiz miktari giriniz");
+			double miktar=scan.nextDouble();
+			if (obj1.getIban().equals(iban)) {
+				if (miktar<=obj2.getHesapMiktar()) {
+					obj1.setHesapMiktar(obj1.hesapMiktar+miktar);
+					System.out.println("Transfer islemi Gerceklestirildi");
+					obj2.setHesapMiktar(obj2.hesapMiktar-miktar);
+					System.out.println("Hesabinizda "+obj2.getHesapMiktar()+" TL kalmistir");
+					a=2;
+				}else {
+					System.out.println("Girdiginiz miktar Bakiyenizi asmaktadir");
+				}
+				
+			}else {
+				System.out.println("Girdiginiz Iban'i kontrol ediniz");
+			}
+		}
+		
+	}	
 		
 		
 	}
@@ -162,6 +241,10 @@ public class Runner {
 					+ obj1.getKkTaksitSayisi());
 			System.out.println("Toplam Kredi Borcunuz      : " + obj1.getKrediBorcu() + " TL");
 			System.out.println("Bu ayki Kredi Odemeniz     : " + obj1.getKrediEkstre() + " TL");
+			System.out.println("Cikis icin 'Q' ya basiniz");
+			if (scan.next()=="Q") {
+				kullaniciEkrani(tc);
+			}
 
 		} else {
 			System.out.println(obj1.getIsim() + " " + obj1.getSoyIsim() + "\nIbanNo : " + obj1.getIban());
@@ -171,7 +254,10 @@ public class Runner {
 					+ obj2.getKkTaksitSayisi());
 			System.out.println("Toplam Kredi Borcunuz      : " + obj2.getKrediBorcu() + " TL");
 			System.out.println("Bu ayki Kredi Odemeniz     : " + obj2.getKrediEkstre() + " TL");
-
+			System.out.println("Cikis icin 'Q' ya basiniz");
+			if (scan.next()=="Q") {
+				kullaniciEkrani(tc);
+			}
 		}
 
 	}

@@ -68,7 +68,7 @@ public class C01_HastaneRunner {
 	public static C05_Doktor doktorBul(String unvan) {
 
 		C05_Doktor doktor = new C05_Doktor();
-
+		
 		for (int i = 0; i < hastane.unvanlar.length; i++) {
 
 			if (unvan.equalsIgnoreCase(hastane.unvanlar[i])) {

@@ -11,7 +11,9 @@ public class Runner {
 	static Kullanici01 obj1 = new Kullanici01();
 	static Kullanici02 obj2 = new Kullanici02();
 	static int tcindex = 0;
-
+	static double minOdeme =0;
+	static double kalanOdeme=0;
+	static boolean minKalan=false;
 	public static void main(String[] args) {
 
 		boolean onay = false;
@@ -28,7 +30,9 @@ public class Runner {
 					onay = true;
 					tcindex = i;
 					c = true;
+					 minOdeme = Banka.kkEkstresi.get(tcindex) / 3;
 					kullaniciEkrani();
+				
 				}
 			}
 			if (c == false) {
@@ -36,6 +40,7 @@ public class Runner {
 			}
 
 		} while (onay != true);
+		scan.close();
 
 	}
 
@@ -79,7 +84,7 @@ public class Runner {
 
 	private static void krediOdeme() {
 
-		System.out.println("Bu ayki kredi odemeniz " + Banka.krediEkstresi.get(tcindex) + " TL dir");
+		System.out.println("Bu ayki kalan kredi odemeniz " + Banka.krediEkstresi.get(tcindex) + " TL dir");
 		System.out.println("Lutfen odemek istediginiz miktari giriniz");
 		double miktar = scan.nextDouble();
 		if (miktar < 0) {
@@ -98,7 +103,7 @@ public class Runner {
 			} else {
 				Banka.krediEkstresi.set(tcindex, Banka.krediEkstresi.get(tcindex) - miktar);
 				System.out.println("Odediginiz " + Banka.krediEkstresi.get(tcindex) * -1
-						+ " fazla tutar bir sonraki aya aktarilmistir");
+						+ " TL fazla tutar bir sonraki aya aktarilmistir");
 			}
 		}
 
@@ -109,34 +114,62 @@ public class Runner {
 
 	private static void kkEkstreOdeme() {
 
-		double minOdeme = Banka.kkEkstresi.get(tcindex) / 3;
-		System.out.println("Bu ayki KK Ekstreniz " + Banka.kkEkstresi.get(tcindex) + "\nOdemeniz Gereken minimum Tutar "
-				+ minOdeme);
+		Runner obj=new Runner();
+		
+		System.out.println("Bu ayki kalan KK Ekstreniz " + Banka.kkEkstresi.get(tcindex) + "\nMinimum Odeme Tutariniz "
+				+minOdeme );
+		if (minKalan) {
+			System.out.println("Bu ayki min Odeme tutariniz gerceklesmistir");
+		}
 		System.out.println("Lutfen odemek istediginiz miktari giriniz");
 		double miktar = scan.nextDouble();
-		if (miktar < 0) {
+		
+		if (miktar <= 0) {
 			System.out.println("Yanlis giris yaptiniz");
 
 		} else {
 			if (miktar == Banka.kkEkstresi.get(tcindex)) {
 				System.out.println("Odemeniz Gerceklerstirilmistir");
+				minKalan=true;
 				Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
 				System.out.println("Bu ayki kalan odeme Tutariniz " + Banka.kkEkstresi.get(tcindex) + " TL dir");
+				Banka.kkBorcu.set(tcindex, Banka.kkBorcu.get(tcindex)-miktar);
 
 			} else if (miktar < Banka.kkEkstresi.get(tcindex)) {
 				if (miktar >= minOdeme) {
 					System.out.println("Minimum odemeniz gerceklestirilmistir");
+					minKalan=true;
 					Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
 					System.out.println(
 							"Ay sonunda " + Banka.kkEkstresi.get(tcindex) + " TL tutar bir daha ki aya aktarilacaktir");
+					Banka.kkBorcu.set(tcindex, Banka.kkBorcu.get(tcindex)-miktar);
 				} else {
-					double kalan=minOdeme-miktar;
-					System.out.println("Ay sonuna kadar "+kalan+" TL daha odeme yapmalisiniz");
-					Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
+					if (obj.kalanOdeme>0) {
+						if (obj.kalanOdeme<=miktar) {
+							System.out.println("Minimum odemeniz gerceklestirilmistir");
+							minKalan=true;
+							Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
+							System.out.println(
+									"Ay sonunda " + Banka.kkEkstresi.get(tcindex) + " TL tutar bir daha ki aya aktarilacaktir");
+						}else {
+							obj.kalanOdeme=obj.kalanOdeme-miktar;
+							System.out.println("Ay sonuna kadar "+kalanOdeme+" TL daha odeme yapmalisiniz");
+							Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
+						}
+						
+					}else {
+						obj.kalanOdeme=minOdeme-miktar;
+						System.out.println("Ay sonuna kadar min Odeme icin "+kalanOdeme+" TL daha odeme yapmalisiniz");
+						Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
+					}
+						
+					}
 				
+				
+					
 				}
 
-			} else {
+			 else {
 				System.out.println("Odemeniz Gerceklerstirilmistir");
 				Banka.kkEkstresi.set(tcindex, Banka.kkEkstresi.get(tcindex) - miktar);
 				System.out.println("Yatirilan " + Banka.kkEkstresi.get(tcindex) * -1
@@ -199,9 +232,9 @@ public class Runner {
 				System.out.println("Yeni sifrenizi giriniz");
 				String yeniSifre = scan.next();
 				String dt = Banka.dogumTarihleri.get(tcindex);
-				String arr[] = dt.split(",");	
+				String arr[] = dt.split(",");	//["10","09","1990"]
 				for (String each : arr) {
-					if (each.contains(yeniSifre) && yeniSifre.length() != 4) {
+					if (each.contains(yeniSifre) || yeniSifre.length() != 4) {
 
 						a = true;
 					} else {
@@ -211,7 +244,7 @@ public class Runner {
 					}
 				}
 				if (a == true) {
-					System.out.println("Sifreniz Dogum Tarihinizi icermemeli ve dort karakter icermeli");
+					System.out.println("Sifreniz Dogum Tarihinizi icermemeli ve en az dort karakter icermeli");
 				}
 
 				System.out.println("Sifreniz Basarila Degistirilmistir");
